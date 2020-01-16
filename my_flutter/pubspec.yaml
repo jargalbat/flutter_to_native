@@ -34,6 +34,7 @@ dependencies:
   intl: ^0.16.1
   uuid: 2.0.4
   encrypt: ^3.3.1
+  url_launcher: ^5.2.5
 
 dev_dependencies:
   flutter_test:

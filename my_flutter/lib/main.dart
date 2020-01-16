@@ -5,6 +5,7 @@ import 'package:my_flutter/all/login_response.dart';
 import 'package:my_flutter/login_screen.dart';
 import 'package:my_flutter/method_channel_helper.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 void main() {
   // This call ensures the Flutter binding has been set up before creating the
@@ -70,11 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.display1,
             ),
-
             Text(
               '$_status',
             ),
-
             Consumer<MethodChannelHelper>(
               builder: (context, model, child) {
                 return Text(
@@ -83,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
-
             Consumer<MethodChannelHelper>(
               builder: (context, model, child) {
                 return RaisedButton(
@@ -92,7 +90,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
-
             Consumer<MethodChannelHelper>(
               builder: (context, model, child) {
                 return RaisedButton(
@@ -108,14 +105,22 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
-
-//            RaisedButton(
-//              child: Text('Call login'),
-//              onPressed: () {
-//                Navigator.push(context,
-//                    MaterialPageRoute(builder: (context) => LoginScreen()));
-//              },
-//            )
+            RaisedButton(
+              child: Text('Call login'),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              },
+            ),
+            RaisedButton(
+              child: Text('Url launcher'),
+              onPressed: () async {
+                final url = 'https://flutter.dev/docs';
+                if (await launcher.canLaunch(url)) {
+                  launcher.launch(url);
+                }
+              },
+            ),
           ],
         ),
       ),
