@@ -3,6 +3,7 @@
     package="mn.gcm.droid_prebuilt">
 
     <application
+        android:name=".DroidPrebuiltApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

@@ -5,49 +5,51 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import io.flutter.embedding.android.FlutterActivity;
 
-//import io.flutter.embedding.android.FlutterActivity;
-
 public class MainActivity extends AppCompatActivity {
+
+    TextView lblCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Instantiate a FlutterEngine.
-//        FlutterEngine flutterEngine = new FlutterEngine(this);
-//
-//        // Start executing Dart code to pre-warm the FlutterEngine.
-//        flutterEngine.getDartExecutor().executeDartEntrypoint(
-//                DartEntrypoint.createDefault()
-//        );
-//
-//        // Cache the FlutterEngine to be used by FlutterActivity.
-//        FlutterEngineCache
-//                .getInstance()
-//                .put("my_engine_id", flutterEngine);
+        lblCount = findViewById(R.id.lblCount);
 
-        Button btnFlutter = findViewById(R.id.btn_flutter);
-
-        btnFlutter.setOnClickListener(new View.OnClickListener() {
+        Button btn_a = findViewById(R.id.btn_a);
+        btn_a.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Option A
                 startActivity(FlutterActivity.createDefaultIntent(MainActivity.this));
-
-//                FlutterActivity
-//                        .withNewEngine()
-//                        .initialRoute("/my_route")
-//                        .build(currentActivity));
-
-//                startActivity(
-//                        FlutterActivity
-//                                .withCachedEngine("my_engine_id")
-//                                .build(currentActivity)
-//                );
             }
         });
+
+        Button btn_b = findViewById(R.id.btn_b);
+        btn_b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(FlutterActivity
+                        .withCachedEngine("FLUTTER_ENGINE_ID")
+                        .build(MainActivity.this));
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // set
+//        ((DroidPrebuiltApplication) this.getApplication()).setSomeVariable("foo");
+
+// get
+        String s = ((DroidPrebuiltApplication) this.getApplication()).getSomeVariable();
+//        val app = application as DroidPrebuiltApplication;
+        lblCount.setText(s);
     }
 }
