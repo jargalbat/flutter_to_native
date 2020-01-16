@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter/all/api.dart';
+import 'package:my_flutter/all/login_request.dart';
+import 'package:my_flutter/all/login_response.dart';
 import 'package:my_flutter/login_screen.dart';
 import 'package:my_flutter/method_channel_helper.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +45,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String _status = '';
 
   void _incrementCounter() {
     setState(() {
@@ -64,10 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .display1,
+              style: Theme.of(context).textTheme.display1,
+            ),
+
+            Text(
+              '$_status',
             ),
 
             Consumer<MethodChannelHelper>(
@@ -87,6 +92,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
+
+            Consumer<MethodChannelHelper>(
+              builder: (context, model, child) {
+                return RaisedButton(
+                  onPressed: () async {
+                    String str = await _logaa();
+                    if (str == 'success') {
+                      model.success();
+                    } else {
+                      model.failed();
+                    }
+                  },
+                  child: Text('Login'),
+                );
+              },
+            ),
+
 //            RaisedButton(
 //              child: Text('Call login'),
 //              onPressed: () {
@@ -103,5 +125,50 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  _login() {
+    setState(() {
+      _status = 'success';
+    });
+
+    _logaa();
+  }
+
+  Future<String> _logaa() async {
+    setState(() {
+      _status = 'clicked';
+    });
+
+//    LoginRequest loginRequest = LoginRequest(
+//        ploginName: '88989800',
+//        pmobile: '88989800',
+//        ppin: '4587',
+//        prememberMe: true,
+//        pfingerPrintFlag: 0);
+//
+//
+//
+//    LoginResponse loginResponse = await signIn(loginRequest);
+//
+//    if (loginResponse.responseCode == '0') {
+//      setState(() {
+//        _status = 'success';
+//      });
+//      return 'success';
+//    } else {
+//      setState(() {
+//        _status = loginResponse.responseDesc;
+//      });
+//      return 'failed';
+//    }
+
+    return 'success';
+  }
+
+  Api _api = new Api();
+
+  Future<LoginResponse> signIn(LoginRequest request) async {
+    return LoginResponse.fromJson((await _api.post(request)).data);
   }
 }

@@ -10,13 +10,17 @@ import io.flutter.plugin.common.MethodChannel;
 
 public class DroidPrebuiltApplication extends Application {
 
-    private static final String FLUTTER_ENGINE_ID = "FLUTTER_ENGINE_ID";
-    private static final String CHANNEL = "mn.gcm/authentication";
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        _CreateFlutterEngine();
+    }
 
     MethodChannel _methodChannel;
 
     public int count = 0;
-
     private String someVariable;
 
     public String getSomeVariable() {
@@ -27,14 +31,10 @@ public class DroidPrebuiltApplication extends Application {
         this.someVariable = someVariable;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        _CreateFlutterEngine();
-    }
-
     private void _CreateFlutterEngine() {
+        final String FLUTTER_ENGINE_ID = "FLUTTER_ENGINE_ID";
+        final String CHANNEL = "mn.gcm/authentication";
+
         // Instantiate a FlutterEngine.
         FlutterEngine flutterEngine = new FlutterEngine(this);
 
@@ -52,31 +52,28 @@ public class DroidPrebuiltApplication extends Application {
         _methodChannel.setMethodCallHandler(
                 (call, result) -> {
                     if (call.method.equals("incrementCounter")) {
-
                         count++;
-                        reportCounter();
-
-//                        int batteryLevel = getBatteryLevel();
+                        _methodChannel.invokeMethod("reportCounter", count);
+                        setSomeVariable(String.valueOf(count));
+//                    } else if (call.method.equals("requestCounter")) {
+//                        String str = call.arguments.toString();
 //
-//                        if (batteryLevel != -1) {
-//                            result.success(batteryLevel);
-//                        } else {
-//                            result.error("UNAVAILABLE", "Battery level not available.", null);
-//                        }
-                    } else if (call.method.equals("requestCounter")) {
-                        reportCounter();
+//                        //_methodChannel.invokeMethod("reportCounter", count);
+//                        setSomeVariable("failed");
+//
+//                        setSomeVariable(String.valueOf(count));
+                    } else if (call.method.equals("success")) {
+                        String str = call.arguments.toString();
+
+                        setSomeVariable(str);
+
+
+                    } else if (call.method.equals("failed")) {
+                        setSomeVariable("failed");
                     } else {
                         result.notImplemented();
                     }
                 }
         );
-
-
-    }
-
-    private void reportCounter() {
-        _methodChannel.invokeMethod("reportCounter", count);
-        setSomeVariable(String.valueOf(count));
-//        Log.d("Count: ", String.valueOf(count));
     }
 }
