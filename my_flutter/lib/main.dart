@@ -1,9 +1,11 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:my_flutter/all/api.dart';
 import 'package:my_flutter/all/login_request.dart';
 import 'package:my_flutter/all/login_response.dart';
 import 'package:my_flutter/login_screen.dart';
 import 'package:my_flutter/method_channel_helper.dart';
+import 'package:my_flutter/take_picture_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
@@ -121,6 +123,27 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               },
             ),
+            RaisedButton(
+              child: Text('Camera'),
+              onPressed: () async {
+                // Ensure that plugin services are initialized so that `availableCameras()`
+                // can be called before `runApp()`
+                WidgetsFlutterBinding.ensureInitialized();
+
+                // Obtain a list of the available cameras on the device.
+                final cameras = await availableCameras();
+
+                // Get a specific camera from the list of available cameras.
+                final firstCamera = cameras.first;
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TakePictureScreen(
+                              camera: firstCamera,
+                            )));
+              },
+            ),
           ],
         ),
       ),
@@ -175,5 +198,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<LoginResponse> signIn(LoginRequest request) async {
     return LoginResponse.fromJson((await _api.post(request)).data);
+  }
+
+  _camera() async {
+    // Ensure that plugin services are initialized so that `availableCameras()`
+// can be called before `runApp()`
+    WidgetsFlutterBinding.ensureInitialized();
+
+// Obtain a list of the available cameras on the device.
+    final cameras = await availableCameras();
+
+// Get a specific camera from the list of available cameras.
+    final firstCamera = cameras.first;
   }
 }

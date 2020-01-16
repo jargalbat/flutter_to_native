@@ -36,6 +36,11 @@ dependencies:
   encrypt: ^3.3.1
   url_launcher: ^5.2.5
 
+  #camera
+  camera: ^0.5.7+3
+  path_provider: ^1.5.1
+  path: ^1.6.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
