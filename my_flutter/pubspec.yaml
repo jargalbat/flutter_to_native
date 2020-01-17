@@ -31,7 +31,9 @@ dependencies:
   dio: ^3.0.7
   dio_cookie_manager: ^1.0.0
   connectivity: ^0.4.5+7
-  intl: ^0.16.1
+  #intl: ^0.16.1
+  intl: ^0.15.1
+
   uuid: 2.0.4
   encrypt: ^3.3.1
   url_launcher: ^5.2.5
@@ -40,6 +42,10 @@ dependencies:
   camera: ^0.5.7+3
   path_provider: ^1.5.1
   path: ^1.6.4
+
+  #biometric
+#  local_auth: ^0.6.1
+  local_auth: ^0.4.0+1
 
 dev_dependencies:
   flutter_test:

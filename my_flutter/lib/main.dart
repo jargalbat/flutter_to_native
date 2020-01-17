@@ -1,13 +1,20 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:my_flutter/all/api.dart';
 import 'package:my_flutter/all/login_request.dart';
 import 'package:my_flutter/all/login_response.dart';
+import 'package:my_flutter/biometric_screen.dart';
 import 'package:my_flutter/login_screen.dart';
 import 'package:my_flutter/method_channel_helper.dart';
 import 'package:my_flutter/take_picture_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
+import 'package:local_auth/local_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/error_codes.dart' as auth_error;
 
 void main() {
   // This call ensures the Flutter binding has been set up before creating the
@@ -121,6 +128,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 if (await launcher.canLaunch(url)) {
                   launcher.launch(url);
                 }
+              },
+            ),
+            RaisedButton(
+              child: Text('Biometric test'),
+              onPressed: () async {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => BiometricScreen()));
               },
             ),
             RaisedButton(
